@@ -16,10 +16,7 @@ public class HikariCPTest {
 
   @BeforeAll
   public static void before() {
-    HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mysql://47.106.185.245:3306/test");
-    config.setUsername("root");
-    config.setPassword("cckk00522");
+    HikariConfig config = new HikariConfig("db.properties");
     datasource = new HikariDataSource(config);
   }
 
