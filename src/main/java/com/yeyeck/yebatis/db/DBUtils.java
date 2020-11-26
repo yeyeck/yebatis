@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.yeyeck.yebatis.utils.ReflectUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -71,10 +72,17 @@ public class DBUtils {
       initStatementArgs(statement, args);
       resultSet = statement.executeQuery();
       List<String> columns = getColumns(resultSet.getMetaData());
-      while (resultSet.next()) {
-        T t = mapTo(clazz, resultSet, columns);
-        list.add(t);
+      if (ReflectUtil.isPrimaryType(clazz)) {
+        while (resultSet.next()) {
+          list.add(resultSet.getObject(1, clazz));
+        }
+      } else {
+        while (resultSet.next()) {
+          T t = mapTo(clazz, resultSet, columns);
+          list.add(t);
+        }
       }
+
     } catch (SQLException e) {
       throw new RuntimeException("SQLException: " + e.getMessage());
     } finally {
@@ -91,7 +99,7 @@ public class DBUtils {
       initStatementArgs(statement, args);
       resultSet = statement.executeQuery();
       if (resultSet.next()) {
-        return resultSet.getObject(0, clazz);
+        return resultSet.getObject(1, clazz);
       } else {
         return null;
       }
@@ -158,6 +166,16 @@ public class DBUtils {
     }
     
     return clazz.cast(obj);
+  }
+
+  public void release(Connection connection) {
+    if (connection != null) {
+      try {
+        connection.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   private void initStatementArgs(PreparedStatement statement, Object...args) throws SQLException {

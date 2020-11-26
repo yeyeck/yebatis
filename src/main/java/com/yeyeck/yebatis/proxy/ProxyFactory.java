@@ -15,6 +15,7 @@ import com.yeyeck.yebatis.annotation.Insert;
 import com.yeyeck.yebatis.annotation.Select;
 import com.yeyeck.yebatis.annotation.Update;
 import com.yeyeck.yebatis.db.DBUtils;
+import com.yeyeck.yebatis.utils.ReflectUtil;
 
 public class ProxyFactory {
   public static Object proxyMapper(Class<?>... clazz) {
@@ -22,12 +23,6 @@ public class ProxyFactory {
   }
 
   private static class SQLInvocationHandler implements InvocationHandler {
-
-    private Class<?>[] primaryClasses = new Class<?>[] {
-      Integer.class, Double.class, Byte.class, Boolean.class, 
-      Long.class, Float.class, Character.class, Short.class,
-      String.class,LocalDateTime.class, LocalDate.class
-    };
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -49,7 +44,7 @@ public class ProxyFactory {
           throw new RuntimeException("Unsupported Return Type: " + method.toString());
         }
         Class<?> clazz = (Class<?>)returnType;
-        if (isPrimaryType(clazz)){
+        if (ReflectUtil.isPrimaryType(clazz)){
           return dbUtils.selectValue(connection, clazz, sql, args);
         } else {
           return dbUtils.selectOne(connection, clazz, sql, args);
@@ -65,15 +60,6 @@ public class ProxyFactory {
         return dbUtils.execute(connection, insert.value(), args);
       }
 			return null;
-    }
-
-    private boolean isPrimaryType(Class<?> clazz) {
-      for (Class<?> c : primaryClasses) {
-        if (clazz.equals(c)) {
-          return true;
-        }
-      }
-      return false;
     }  
-   }
+  }
 }
