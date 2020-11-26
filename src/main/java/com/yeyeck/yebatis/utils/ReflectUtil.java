@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ReflectUtil {
-  private final static Class<?>[] primaryClasses = {
+  private static final Class<?>[] primaryClasses = {
     Integer.class, Double.class, Byte.class, Boolean.class, 
     Long.class, Float.class, Character.class, Short.class,
     String.class,LocalDateTime.class, LocalDate.class, Date.class
