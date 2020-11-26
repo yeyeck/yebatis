@@ -16,7 +16,7 @@ dataSource.elideSetAutoCommits=true
 dataSource.maintainTimeStats=false
 ```
 # 使用
-参考test目录下的(com.yeyeck.yebatis.test)[https://github.com/yeyeck/yebatis/tree/master/src/test/java/com/yeyeck/yebatis/test]
+参考test目录下的[com.yeyeck.yebatis.test](https://github.com/yeyeck/yebatis/tree/master/src/test/java/com/yeyeck/yebatis/test)
 1. 首先准备一张数据库表
 ```sql
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
