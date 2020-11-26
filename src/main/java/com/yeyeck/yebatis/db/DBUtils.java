@@ -26,10 +26,7 @@ public class DBUtils {
 
 
   private DBUtils() {
-    HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mysql://47.106.185.245:3306/test?characterEncoding=utf8");
-    config.setUsername("root");
-    config.setPassword("cckk00522");
+    HikariConfig config = new HikariConfig("db.properties");
     dataSource = new HikariDataSource(config);
   }
 
