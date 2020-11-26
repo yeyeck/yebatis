@@ -6,8 +6,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.yeyeck.yebatis.annotation.Delete;
